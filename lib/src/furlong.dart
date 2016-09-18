@@ -12,12 +12,22 @@ class Furlong {
     if (migrations != null) this.migrations.addAll(migrations);
   }
 
-  Future checkForMigrationsTable() async {
-    var results = await connectionPool.query("");
-    
+  Future createMigrationTable() async {
+    await connectionPool.query("CREATE TABLE '$migrationTableName' (id integer not null auto_increment name VARCHAR(255), batch INT(5))");
   }
 
-  Future down() async {}
+  Future<bool> migrationTableExists() {
+    return connectionPool.query("SHOW TABLES LIKE '$migrationTableName'").then((results) {
+      return results.toList().then((rows) {
+        return rows.isNotEmpty;
+      });
+    });
+   }
+
+  Future down() async {
+    if (!await migrationTableExists())
+      await createMigrationTable();
+  }
 
   Future reset() async {
     await down();
@@ -26,5 +36,12 @@ class Furlong {
 
   Future revert() async {}
 
-  Future up() async {}
+  Future up() async {
+    if (!await migrationTableExists())
+      await createMigrationTable();
+
+    for (Migration migration in migrations) {
+
+    }
+  }
 }
