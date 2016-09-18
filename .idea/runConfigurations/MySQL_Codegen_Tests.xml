@@ -1,0 +1,6 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="MySQL Codegen Tests" type="DartTestRunConfigurationType" factoryName="Dart Test" singleton="true">
+    <option name="filePath" value="$PROJECT_DIR$/test/mysql/codegen.dart" />
+    <method />
+  </configuration>
+</component>

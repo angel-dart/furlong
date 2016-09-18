@@ -1,4 +1,5 @@
 name: furlong
+version: 1.0.0-dev
 description: SQLJocky migration tool.
 author: Tobe O <thosakwe@gmail.com>
 homepage: https://github.com/thosakwe/furlong
