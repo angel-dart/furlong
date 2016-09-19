@@ -7,6 +7,7 @@ Will eventually work with [SQLJocky2](https://github.com/VenChat/sqljocky2).
 * Command-line executable
 * Grinder examples
 * More examples
+* Use `inflection` package for pluralization
 
 # Examples
 
@@ -22,7 +23,7 @@ class SongMigration extends Migration {
       
       table.varChar("artist_id");
       table.varChar("title");
-      table.varChar("desc")..nullable = true;
+      table.varChar("desc").nullable = true;
       table.timeStamp("created_at");
       table.timeStamp("updated_at");
     });

@@ -22,7 +22,7 @@ runTests(ConnectionPool pool) {
           expect(_int.size, equals(4));
         });
 
-        var query = migrator.schemas.first.toSql();
+        var query = migrator.queries.first.toSql();
         print("Query: $query");
         expect(query, contains("auto_increment"));
         expect(query, contains("not null"));
@@ -35,10 +35,10 @@ runTests(ConnectionPool pool) {
         var migrator = new MySqlMigrator();
 
         migrator.create("foo", (MySqlTableSchema table) {
-          table.varChar("bar", size: 34)..nullable = true;
+          table.varChar("bar", size: 34).nullable = true;
         });
 
-        var query = migrator.schemas.first.toSql();
+        var query = migrator.queries.first.toSql();
         print("Query: $query");
         expect(query, contains("VARCHAR(34)"));
         expect(query.contains("not null"), equals(false));

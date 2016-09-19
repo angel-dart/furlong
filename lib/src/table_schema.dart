@@ -9,6 +9,7 @@ abstract class TableSchema {
   FieldGenerator char(String name);
   FieldGenerator date(String name);
   FieldGenerator dateTime(String name, {bool timeZone});
+  FieldGenerator id([String idField]);
   FieldGenerator integer(String name, {bool autoIncrement, int defaultValue, int size});
   FieldGenerator json(String name);
   FieldGenerator jsonb(String name);

@@ -10,28 +10,27 @@ part 'mysql_table_schema.dart';
 part 'varchar.dart';
 
 class MySqlMigrator extends Migrator {
-  List<TableSchema> _schemas = [];
+  List<String> _dropped = [];
+  List<TableSchema> _queries = [];
 
-  @override
-  List<TableSchema> get schemas => new List.from(_schemas, growable: false);
+  List<String> get dropped => new List.from(_dropped, growable: false);
 
-  @override
+  List<TableSchema> get queries => new List.from(_queries, growable: false);
+
   String get type => "mysql";
 
-  @override
-  drop(List<String> names) async => [];
+  drop(List<String> names) => _dropped.addAll(names);
 
-  @override
   create(String name, callback(TableSchema table)) {
     var schema = new MySqlTableSchema._(name);
     var result = callback(schema);
 
     if (result is Future) {
       return result.then((_) {
-        _schemas.add(schema);
+        _queries.add(schema);
       });
     } else {
-      _schemas.add(schema);
+      _queries.add(schema);
     }
   }
 }
