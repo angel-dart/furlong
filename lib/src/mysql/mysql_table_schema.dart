@@ -35,46 +35,61 @@ class MySqlTableSchema implements TableSchema {
 
   _Int integer(String name,
       {bool autoIncrement: false, int defaultValue: null, int size: 4}) {
-    return _add(new _Int(name,
-        autoIncrement: autoIncrement, defaultValue: defaultValue, size: size));
+    return _add(new _Int(name, autoIncrement: autoIncrement, size: size));
   }
 
-  FieldGenerator bigInteger(String name) {}
+  _BigInt bigInteger(String name,
+      {bool autoIncrement: false, num defaultValue: null, int size: 4}) {
+    return _add(new _BigInt(name, autoIncrement: autoIncrement, size: size));
+  }
 
-  FieldGenerator blob(String name) {}
+  FieldGenerator blob(String name) =>
+      _add(new _FieldGenerator(name, "BLOB", null));
 
-  FieldGenerator boolean(String name) {}
+  _Boolean boolean(String name) => _add(new _Boolean(name));
 
-  FieldGenerator char(String name) {}
+  FieldGenerator char(String name, {int size: 255}) =>
+      _add(new _Char(name, size: size));
 
-  FieldGenerator date(String name) {}
+  _Date date(String name) => _add(new _Date(name));
 
-  FieldGenerator dateTime(String name, {bool timeZone}) {}
+  _DateTime dateTime(String name) => _add(new _DateTime(name));
+
+  _Enumerator enumerator(String name, List<String> potentialValues) => _add(new _Enumerator(name, potentialValues));
 
   FieldGenerator id([String idField]) =>
       primaryKey = integer(idField ?? "id", autoIncrement: true);
 
-  FieldGenerator json(String name) {}
+  _FieldGenerator json(String name) => _add(new _FieldGenerator(name, "JSON", null));
 
-  FieldGenerator jsonb(String name) {}
+  _LongText longText(String name) => _add(new _LongText(name));
 
-  FieldGenerator longText(String name) {}
-
-  FieldGenerator mediumInteger(String name) {}
-
-  FieldGenerator mediumText(String name) {}
-
-  FieldGenerator smallInteger(String name) {}
-
-  FieldGenerator text(String text) {}
-
-  FieldGenerator time(String name, {bool timeZone}) {}
-
-  FieldGenerator timeStamp(String name, {bool nullable, bool timeZone}) {}
-
-  FieldGenerator tinyInteger(String name) {}
-
-  _VarChar varChar(String name, {int size: 255}) {
-    return _add(new _VarChar(name, size: size));
+  _MediumInt mediumInteger(String name,
+      {bool autoIncrement: false, int defaultValue: null, int size: 3}) {
+    return _add(new _MediumInt(name, autoIncrement: autoIncrement, size: size));
   }
+
+  _MediumText mediumText(String name) => _add(new _MediumText(name));
+
+  _SmallInt smallInteger(String name,
+      {bool autoIncrement: false, int defaultValue: null, int size: 2}) {
+    return _add(new _SmallInt(name, autoIncrement: autoIncrement, size: size));
+  }
+
+  _String string(String name, {int size: 255}) {
+    return _add(new _String(name, size: size));
+  }
+
+  _Text text(String name) => _add(new _Text(name));
+
+  _Time time(String name) => _add(new _Time(name));
+
+  _TimeStamp timeStamp(String name) => _add(new _TimeStamp(name));
+
+  _TinyInt tinyInteger(String name,
+      {bool autoIncrement: false, int defaultValue: null, int size: 1}) {
+    return _add(new _TinyInt(name, autoIncrement: autoIncrement, size: size));
+  }
+
+  _TinyText tinyText(String name) => _add(new _TinyText(name));
 }

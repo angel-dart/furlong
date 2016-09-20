@@ -1,13 +1,17 @@
 library furlong.gen.mysql;
 
 import 'dart:async';
+import 'package:intl/intl.dart';
 import '../generator.dart';
 import '../migrator.dart';
 import '../table_schema.dart';
 
+part 'date.dart';
+part 'enumerator.dart';
 part 'int.dart';
 part 'mysql_table_schema.dart';
-part 'varchar.dart';
+part 'string.dart';
+part 'text.dart';
 
 class MySqlMigrator extends Migrator {
   List<String> _dropped = [];
@@ -20,6 +24,8 @@ class MySqlMigrator extends Migrator {
   String get type => "mysql";
 
   drop(List<String> names) => _dropped.addAll(names);
+
+  alter(String name, callback(TableSchema table)) {}
 
   create(String name, callback(TableSchema table)) {
     var schema = new MySqlTableSchema._(name);
@@ -36,7 +42,7 @@ class MySqlMigrator extends Migrator {
 }
 
 class _FieldGenerator extends FieldGenerator {
-  String defaultValue = null;
+  var defaultValue = null;
   String name;
   bool nullable = false;
   int size;
@@ -46,7 +52,7 @@ class _FieldGenerator extends FieldGenerator {
 
   @override
   String toSql() {
-    String result = "`$name` $type($size)";
+    String result = (size != null) ? "`$name` $type($size)" : "`$name` $type";
 
     if (!nullable) result += " not null";
 

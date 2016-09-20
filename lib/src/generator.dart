@@ -1,5 +1,5 @@
 abstract class FieldGenerator {
-  String defaultValue;
+  var defaultValue;
   String get name;
   bool nullable;
   String toSql();

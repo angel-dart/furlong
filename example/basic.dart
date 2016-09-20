@@ -17,8 +17,8 @@ class TodoMigration extends Migration {
     await migrator.create("todos", (TableSchema table) {
       table.primaryKey = table.integer("id", autoIncrement: true);
 
-      table.varChar("title")..nullable = true;
-      table.varChar("text");
+      table.string("title")..nullable = true;
+      table.string("text");
       table.timeStamp("created_at");
       table.timeStamp("updated_at");
     });

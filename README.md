@@ -3,7 +3,8 @@
 Will eventually work with [SQLJocky2](https://github.com/VenChat/sqljocky2).
 
 # Todo
-* All field specifications
+* Alterations
+* Model generators
 * Command-line executable
 * Grinder examples
 * More examples
@@ -21,9 +22,9 @@ class SongMigration extends Migration {
     await migrator.create("songs", (TableSchema table) {
       table.primaryKey = table.integer("id", autoIncrement: true);
       
-      table.varChar("artist_id");
-      table.varChar("title");
-      table.varChar("desc").nullable = true;
+      table.string("artist_id");
+      table.string("title");
+      table.string("desc").nullable = true;
       table.timeStamp("created_at");
       table.timeStamp("updated_at");
     });
