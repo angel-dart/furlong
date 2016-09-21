@@ -21,6 +21,11 @@ class Furlong {
         "CREATE TABLE `$migrationTableName` (id integer not null auto_increment, name VARCHAR(255), batch INT(5), PRIMARY KEY(id))");
   }
 
+  Future enforceMigrationTableExists() async {
+    if (!await migrationTableExists())
+      await createMigrationTable();
+  }
+
   Future<bool> migrationTableExists() async {
     var result =
         await connectionPool.query("SHOW TABLES LIKE '$migrationTableName'");
@@ -31,6 +36,7 @@ class Furlong {
   Migrator createMigrator() => new MySqlMigrator();
 
   Future<int> getLastBatchNumber() async {
+    await enforceMigrationTableExists();
     var results = await connectionPool
         .query("SELECT max(batch) as batch from `$migrationTableName`");
     var row = await results.first;
@@ -43,7 +49,7 @@ class Furlong {
 
   _batch(callback(Migrator migrator, Migration migration),
       [constraint(Migration migration)]) async {
-    if (!await migrationTableExists()) await createMigrationTable();
+    await enforceMigrationTableExists();
 
     var migrator = createMigrator();
 
@@ -61,6 +67,7 @@ class Furlong {
   }
 
   Future createMigrationRecords(String name, int batch) async {
+    await enforceMigrationTableExists();
     var query = await connectionPool.prepare(
         "INSERT INTO `$migrationTableName` (name, batch) VALUES(?, ?)");
     await query.execute([name, batch]);
@@ -91,6 +98,7 @@ class Furlong {
   }
 
   Future<List<String>> getMigrationsFromBatch(int batch) async {
+    await enforceMigrationTableExists();
     var results = await connectionPool
         .query("SELECT name from `$migrationTableName` WHERE batch = $batch");
     var list = await results.toList();
@@ -98,6 +106,7 @@ class Furlong {
   }
 
   Future<bool> migrationHasNotBeenAlreadyRun(Migration migration) async {
+    await enforceMigrationTableExists();
     var results = await connectionPool.query(
         "SELECT * FROM `$migrationTableName` WHERE name = '${migration.name}'");
     var list = await results.toList();
@@ -125,7 +134,7 @@ class Furlong {
   }
 
   Future revert() async {
-    if (!await migrationTableExists()) await createMigrationTable();
+    await enforceMigrationTableExists();
 
     var lastBatch = await getLastBatchNumber();
     var migrator = createMigrator();
