@@ -91,6 +91,7 @@ class Furlong {
   }
 
   Future down() async {
+    print("Reversing all migrations...");
     await _batch((migrator, migration) async {
       migration.destroy(migrator);
       await deleteMigrationRecords(migration.name);
