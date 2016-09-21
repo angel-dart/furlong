@@ -8,7 +8,7 @@ class _Text extends _FieldGenerator {
     _defaultValue = value;
   }
 
-  @override String get defaultValue => "'$_defaultValue'";
+  @override String get defaultValue => null;
 
   _Text(String name, {String type}) : super(name, type ?? "TEXT", null);
 }
