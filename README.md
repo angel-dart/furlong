@@ -5,8 +5,6 @@ Will eventually work with [SQLJocky2](https://github.com/VenChat/sqljocky2).
 # Todo
 * Alterations
 * Model generators
-* Command-line executable
-* Grinder examples
 * More examples
 * Use `inflection` package for pluralization
 
@@ -14,8 +12,9 @@ Will eventually work with [SQLJocky2](https://github.com/VenChat/sqljocky2).
 
 ```dart
 class SongMigration extends Migration {
+  // Name of class to generate
   @override
-  String get name => "Songs table";
+  String get name => "Song";
 
   @override
   Future create(Migrator migrator) async {
